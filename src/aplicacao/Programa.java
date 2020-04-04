@@ -14,7 +14,7 @@ public class Programa {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		System.out.print("Numero do quarto: ");
-		int numeroQuart= sc.nextInt();
+		int numeroQuarto= sc.nextInt();
 		System.out.print("Check-in data (dd/mm/aaaa): ");
 		Date checkin = sdf.parse(sc.next());
 		System.out.print("Check-out data (dd/mm/aaaa): ");
@@ -25,9 +25,24 @@ public class Programa {
 			
 		}
 		else {
+			Reserva reserva = new Reserva(numeroQuarto, checkin, checkout);
+			System.out.println("Reserva: "+reserva);
+		
+			System.out.println("Entre co os dados para atualizar a reserva:");
+			System.out.print("Check-in data (dd/mm/aaaa): ");
+			checkin = sdf.parse(sc.next());
+			System.out.print("Check-out data (dd/mm/aaaa): ");
+			checkout = sdf.parse(sc.next());
+			Date agora = new Date();
+			
+			String erro = reserva.atualizaDatas(checkin, checkout);
+			if(erro != null) {
+				System.out.println("Erro na reserva: " + erro);
+			}
+			else {
+				System.out.println("Reserva: "+reserva);
+			}
 			
 		}
-
 	}
-
 }
