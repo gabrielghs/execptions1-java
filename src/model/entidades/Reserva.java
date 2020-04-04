@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exceptions.DomainException;
+
 public class Reserva {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -15,7 +17,10 @@ public class Reserva {
 		
 	}
 
-	public Reserva(Integer numeroQuarto, Date checkin, Date checkout) {
+	public Reserva(Integer numeroQuarto, Date checkin, Date checkout){
+		if(!checkout.after(checkin)) {
+			throw new DomainException("a data de Check-out deve ser superior a data de Check-in!");
+		}
 		this.numeroQuarto = numeroQuarto;
 		this.checkin = checkin;
 		this.checkout = checkout;
@@ -43,17 +48,17 @@ public class Reserva {
 		
 	} 
 	
-	public String atualizaDatas(Date checkin, Date checkout) {
+	public void atualizaDatas(Date checkin, Date checkout){
 		Date agora = new Date();
 		if(checkin.before(agora) || checkout.before(agora)) {
-			return "as datas de reserva para atalização devem ser datas futuras";
+			//Exceçao usada quando os argumentos q passa para um metodo são invalidos
+			throw new DomainException("as datas de reserva para atalização devem ser datas futuras");
 		}
 		if(!checkout.after(checkin)) {
-			return "a data de Check-out deve ser superior a data de Check-in!";
+			throw new DomainException("a data de Check-out deve ser superior a data de Check-in!");
 		}
 		this.checkin = checkin;
 		this.checkout = checkout;
-		return null;
 	}
 	
 	@Override
